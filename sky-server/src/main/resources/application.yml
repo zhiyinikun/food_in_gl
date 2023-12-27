@@ -15,6 +15,13 @@ spring:
   web:
     resources:
       static-locations: classpath:/static/,classpath:/view/,classpath:/public,classpath:/resources,classpath:/META-INF/resources
+  redis:
+    host: ${sky.redis.host}
+    port: ${sky.redis.port}
+    password: ${sky.redis.passowrd}
+    database: ${sky.redis.database}
+
+
 
 mybatis:
   #mapper配置文件

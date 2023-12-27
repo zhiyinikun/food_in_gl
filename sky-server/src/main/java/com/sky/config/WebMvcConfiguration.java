@@ -45,10 +45,11 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
     /**
      * 通过knife4j生成接口文档  knife4j是Java MVC框架集成Swagger生成Api文档
+     * admin端
      * @return
      */
     @Bean
-    public Docket docket() {
+    public Docket docket_01() {
         log.info("生成接口文档");
         ApiInfo apiInfo = new ApiInfoBuilder()
                 .title("外卖项目接口文档")
@@ -56,9 +57,33 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 .description("外卖项目接口文档")
                 .build();
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
+                .groupName("管理端接口")
                 .apiInfo(apiInfo)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.sky.controller")) //指定扫描包
+                .apis(RequestHandlerSelectors.basePackage("com.sky.controller.admin")) //指定扫描包
+                .paths(PathSelectors.any())
+                .build();
+        return docket;
+    }
+
+    /**
+     * 通过knife4j生成接口文档  knife4j是Java MVC框架集成Swagger生成Api文档
+     * user端
+     * @return
+     */
+    @Bean
+    public Docket docket_02() {
+        log.info("生成接口文档");
+        ApiInfo apiInfo = new ApiInfoBuilder()
+                .title("外卖项目接口文档")
+                .version("2.0")
+                .description("外卖项目接口文档")
+                .build();
+        Docket docket = new Docket(DocumentationType.SWAGGER_2)
+                .groupName("用户端接口")
+                .apiInfo(apiInfo)
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.sky.controller.user")) //指定扫描包
                 .paths(PathSelectors.any())
                 .build();
         return docket;
