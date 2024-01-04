@@ -40,7 +40,7 @@ public class ShopController {
     @ApiOperation("获取店铺营业状态")
     public Result<Integer> getStatus(){
         Integer status=shopService.get();
-        log.info("该店铺状态为：{}",status == 0 ?"已打烊":"营业中");
+        log.info("(商家)该店铺状态为：{}",status == 0 ?"已打烊":"营业中");
         return Result.success(status);
     }
 
