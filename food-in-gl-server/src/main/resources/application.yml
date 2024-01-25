@@ -1,0 +1,58 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: dev
+  main:
+    allow-circular-references: true
+  datasource:
+    druid:
+      driver-class-name: ${gl.datasource.driver-class-name}
+      url: jdbc:mysql://${gl.datasource.host}:${gl.datasource.port}/${gl.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+      username: ${gl.datasource.username}
+      password: ${gl.datasource.password}
+  web:
+    resources:
+      static-locations: classpath:/static/,classpath:/view/,classpath:/public,classpath:/resources,classpath:/META-INF/resources
+  redis:
+    host: ${gl.redis.host}
+    port: ${gl.redis.port}
+    password: ${gl.redis.passowrd}
+    database: ${gl.redis.database}
+
+
+
+mybatis:
+  #mapper配置文件
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.gl.entity
+  configuration:
+    #开启驼峰命名
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    com:
+      gl:
+        mapper: debug
+        service: info
+        controller: info
+
+gl:
+  jwt:
+    # 设置jwt签名加密时使用的秘钥
+    admin-secret-key: fyx
+    # 设置jwt过期时间
+    admin-ttl: 7200000
+    # 设置前端传递过来的令牌名称
+    admin-token-name: token
+
+    user-secret-key:  fyx
+    user-ttl: 7200000
+    user-token-name: authentication
+
+  wechat:
+    appid: ${gl.wechat.appid}
+    secret: ${gl.wechat.secret}
+
