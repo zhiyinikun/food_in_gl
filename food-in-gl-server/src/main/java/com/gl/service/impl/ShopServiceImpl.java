@@ -4,10 +4,12 @@ import com.gl.constant.StatusConstant;
 import com.gl.service.ShopService;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Resource;
 
 @Service
+@Slf4j
 public class ShopServiceImpl implements ShopService {
 
     @Resource
@@ -18,7 +20,12 @@ public class ShopServiceImpl implements ShopService {
      */
     @Override
     public void set(Integer status) {
-        redisTemplate.opsForValue().set(StatusConstant.KEY,status);
+        try{
+            redisTemplate.opsForValue().set(StatusConstant.KEY,status);
+        }catch (Exception e){
+            log.info("为启动Redis");
+        }
+
     }
 
     /**
@@ -27,7 +34,12 @@ public class ShopServiceImpl implements ShopService {
      */
     @Override
     public Integer get() {
-        Integer status=(Integer)redisTemplate.opsForValue().get(StatusConstant.KEY);
-        return status;
+        try {
+            Integer status=(Integer)redisTemplate.opsForValue().get(StatusConstant.KEY);
+            return status;
+        }catch (Exception e){
+            log.info("为启动Redis");
+        }
+        return 0;
     }
 }

@@ -114,8 +114,22 @@ public class DishController {
     public Result<List<Dish>> list(Long categoryId){
         String key = "dish_"+categoryId;
         log.info("根据分类id查询菜品:{}",categoryId);
-        List<Dish> list =dishService.getBycategoryId(categoryId);
-        return Result.success(list);
+        List<Dish> list;
+        try{
+            //查询redis 中是否存在菜品数据
+            list = (List<Dish>) redisTemplate.opsForValue().get(key);
+            if(list != null && list.size() > 0){
+                //如果存在，直接返回，无须查询数据库
+                return Result.success(list);
+            }
+            //如果不存在，查询数据库，将查询到的数据放入redis 中
+            list =dishService.getBycategoryId(categoryId);
+            redisTemplate.opsForValue().set(key,list);
+            return Result.success(list);
+        }catch (Exception e){
+            list =dishService.getBycategoryId(categoryId);
+            return Result.success(list);
+        }
     }
     /** TODO
      * 这里修改旗手停售的状态的没写，为了到时候测试能测出来

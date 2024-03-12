@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableTransactionManagement //开启注解方式的事务管理
 @Slf4j
-@EnableScheduling
+@EnableScheduling //Task开启任务调度
 @EnableCaching //cache的缓存注解功能
 public class GlApplication {
     public static void main(String[] args) {
